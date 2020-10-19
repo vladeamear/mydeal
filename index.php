@@ -28,7 +28,7 @@ $projects = array(
 
 $tasks = array(
     array('Собеседование в IT компании', '01.12.2019', 'Работа', false),
-    array('Выполнить тестовое задание', '25.12.2019', 'Работа', false),
+    array('Выполнить тестовое задание', '19.10.2020', 'Работа', false),
     array('Сделать задание первого раздела', '21.12.2019', 'Учеба', true),
     array('Встреча с другом', '22.12.2019', 'Входящие', false),
     array('Купить корм для кота', 'null', 'Домашние дела', false),
@@ -49,5 +49,7 @@ $page_content = include_template('main.php', ['projects' => $projects, 'tasks' =
 $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => $username]);
 
 print($layout_content);
+
+echo strtotime(date('d.m.Y'));
 
 ?>
