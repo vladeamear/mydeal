@@ -15,6 +15,15 @@ $tasks = array(
     array('Заказать пиццу', 'null', 'Домашние дела', false)
 );
 
+function howmuch($innertasks,$projectname){
+    $j = 0;
+    for ($i = 0; $i < count($innertasks); $i++){
+        if($innertasks[$i][2] == $projectname)
+            $j++;
+    }
+    return $j;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -61,7 +70,7 @@ $tasks = array(
                         ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?=$projects[$i]?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i])?></span>
                         </li>
                         <?php
                             }
