@@ -99,6 +99,7 @@ $show_complete_tasks = rand(0, 1);
     </div>
 </div>
 
+<!--
 <footer class="main-footer">
     <div class="container">
         <div class="main-footer__copyright">
@@ -157,6 +158,7 @@ $show_complete_tasks = rand(0, 1);
         </div>
     </div>
 </footer>
+-->
 
 <script src="flatpickr.js"></script>
 <script src="script.js"></script>
