@@ -50,6 +50,4 @@ $layout_content = include_template('layout.php', ['content' => $page_content, 't
 
 print($layout_content);
 
-echo strtotime(date('d.m.Y'));
-
 ?>
