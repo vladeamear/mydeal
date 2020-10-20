@@ -53,11 +53,14 @@
                     <?php
                         for ($i = 0; $i <count($tasks); $i++){
 
+                            $k = strtotime(date('d.m.Y'))-strtotime($tasks[$i][1]);
+
                             if ($show_complete_tasks == 0 && $tasks[$i][3]==true)
                                 continue;
                     ?>
                     <tr class="tasks__item task <?php 
                         if($tasks[$i][3]==true) echo 'task--completed';
+                        if($k < 86400) echo 'task--important';
                         ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
