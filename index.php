@@ -17,6 +17,11 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+$con = mysqli_connect('localhost','root','root','mydeal');
+if ($con==false){
+    print("ошибка подключения: ".mysqli_connect_error());
+}
+
 $username = 'Константин';
 
 // показывать или нет выполненные задачи
