@@ -26,11 +26,10 @@ mysqli_set_charset($con, "utf8");
 
 $username = 'Константин';
 
-// $sql = "";
-
 $list_0f_projects = mysqli_query($con, "SELECT `project_name` FROM `projects` WHERE `author` = '$username'");
+$list_0f_tasks = mysqli_query($con, "SELECT `task_name` FROM `tasks` WHERE `author` = '$username'");
 
-if(!$list_0f_projects){
+if(!$list_0f_projects || !$list_0f_tasks){
     $error = mysqli_error($con);
     print('Ошибка MySQL: '.$error);
 }
