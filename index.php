@@ -22,7 +22,18 @@ if ($con==false){
     print("ошибка подключения: ".mysqli_connect_error());
 }
 
+mysqli_set_charset($con, "utf8");
+
 $username = 'Константин';
+
+// $sql = "";
+
+$list_0f_projects = mysqli_query($con, "SELECT `project_name` FROM `projects` WHERE `author` = '$username'");
+
+if(!$list_0f_projects){
+    $error = mysqli_error($con);
+    print('Ошибка MySQL: '.$error);
+}
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
