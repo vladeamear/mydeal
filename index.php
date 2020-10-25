@@ -27,12 +27,15 @@ mysqli_set_charset($con, "utf8");
 $username = 'Константин';
 
 $list_0f_projects = mysqli_query($con, "SELECT `project_name` FROM `projects` WHERE `author` = '$username'");
-$list_0f_tasks = mysqli_query($con, "SELECT `task_name` FROM `tasks` WHERE `author` = '$username'");
+$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status` FROM `tasks` WHERE `author` = '$username'");
 
 if(!$list_0f_projects || !$list_0f_tasks){
     $error = mysqli_error($con);
     print('Ошибка MySQL: '.$error);
 }
+
+$projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
+$tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
