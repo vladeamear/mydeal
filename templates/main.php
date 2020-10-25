@@ -12,8 +12,8 @@
                             for ($i = 0; $i < count($projects); $i++){
                         ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?=$projects[$i]?></a>
-                            <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i])?></span>
+                            <a class="main-navigation__list-item-link" href="#"><?=$projects[$i][0]?></a>
+                            <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i][0])?></span>
                         </li>
                         <?php
                             }
@@ -53,9 +53,9 @@
                     <?php
                         for ($i = 0; $i <count($tasks); $i++){
 
-                            $k = strtotime(date('d.m.Y'))-strtotime($tasks[$i][1]);
+                            $k = strtotime(date('d.m.Y'))-strtotime($tasks[$i]["deadline"]);
 
-                            if ($show_complete_tasks == 0 && $tasks[$i][3]==true)
+                            if ($show_complete_tasks == 0 && $tasks[$i]["task_status"]==1)
                                 continue;
                     ?>
                     <tr class="tasks__item task <?php 
@@ -64,11 +64,11 @@
                         ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" <?php if($tasks[$i][3]==true) echo 'checked'?>>
-                                <span class="checkbox__text"><?=$tasks[$i][0]?></span>
+                                <input class="checkbox__input visually-hidden" type="checkbox" <?php if($tasks[$i]["task_status"]==1) echo 'checked'?>>
+                                <span class="checkbox__text"><?=$tasks[$i]["task_name"]?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?=$tasks[$i][1]?></td>
+                        <td class="task__date"><?=$tasks[$i]["deadline"]?></td>
                         <td class="task__controls"></td>
                     </tr>
                     <?php
