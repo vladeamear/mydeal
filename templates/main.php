@@ -11,9 +11,14 @@
                         <?php
                             for ($i = 0; $i < count($projects); $i++){
                         ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?=$projects[$i][0]?></a>
-                            <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i][0])?></span>
+                        <li class="main-navigation__list-item <?php
+                            if (isset($pname) and $projects[$i]["project_name"] == $pname)
+                                echo 'main-navigation__list-item--active';
+                        ?>">
+                            <a class="main-navigation__list-item-link" href="?tab=<?=$projects[$i]["id_projects"]?>">
+                                <?=$projects[$i]["project_name"]?>
+                            </a>
+                            <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i]["project_name"])?></span>
                         </li>
                         <?php
                             }
@@ -51,27 +56,30 @@
 
                 <table class="tasks">
                     <?php
-                        for ($i = 0; $i <count($tasks); $i++){
+                        for ($i = 0; $i <count($stasks); $i++){
 
-                            $k = strtotime(date('d.m.Y'))-strtotime($tasks[$i]["deadline"]);
+                            if ($stasks[$i]["project_name"] == $pname){
 
-                            if ($show_complete_tasks == 0 && $tasks[$i]["task_status"]==1)
+                                $k = strtotime(date('d.m.Y'))-strtotime($stasks[$i]["deadline"]);
+
+                            if ($show_complete_tasks == 0 && $stasks[$i]["task_status"]==1)
                                 continue;
                     ?>
                     <tr class="tasks__item task <?php 
-                        if($tasks[$i][3]==true) echo 'task--completed';
+                        if($stasks[$i][3]==true) echo 'task--completed';
                         if($k < 86400) echo 'task--important';
                         ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" <?php if($tasks[$i]["task_status"]==1) echo 'checked'?>>
-                                <span class="checkbox__text"><?=$tasks[$i]["task_name"]?></span>
+                                <input class="checkbox__input visually-hidden" type="checkbox" <?php if($stasks[$i]["task_status"]==1) echo 'checked'?>>
+                                <span class="checkbox__text"><?=$stasks[$i]["task_name"]?></span>
                             </label>
                         </td>
-                        <td class="task__date"><?=$tasks[$i]["deadline"]?></td>
+                        <td class="task__date"><?=$stasks[$i]["deadline"]?></td>
                         <td class="task__controls"></td>
                     </tr>
-                    <?php
+                    <?
+                            }
                         }
                     ?>
                 </table>

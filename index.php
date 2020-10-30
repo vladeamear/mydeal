@@ -26,7 +26,7 @@ mysqli_set_charset($con, "utf8");
 
 $username = 'Константин';
 
-$list_0f_projects = mysqli_query($con, "SELECT `project_name` FROM `projects` WHERE `author` = '$username'");
+$list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `author` = '$username'");
 $list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status` FROM `tasks` WHERE `author` = '$username'");
 
 if(!$list_0f_projects || !$list_0f_tasks){
@@ -34,23 +34,13 @@ if(!$list_0f_projects || !$list_0f_tasks){
     print('Ошибка MySQL: '.$error);
 }
 
-$projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_NUM);
+
+$projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
 $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 
-// print_r($tasks_from_db);
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
-
-
-// $tasks = array(
-//     array('Собеседование в IT компании', '01.12.2019', 'Работа', false),
-//     array('Выполнить тестовое задание', '20.10.2020', 'Работа', false),
-//     array('Сделать задание первого раздела', '21.12.2019', 'Учеба', true),
-//     array('Встреча с другом', '22.12.2019', 'Входящие', false),
-//     array('Купить корм для кота', 'null', 'Домашние дела', false),
-//     array('Заказать пиццу', 'null', 'Домашние дела', false)
-// );
 
 function howmuch($innertasks,$projectname){
     $j = 0;
@@ -61,7 +51,23 @@ function howmuch($innertasks,$projectname){
     return $j;
 }
 
-$page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'toshowornottoshow' => $show_complete_tasks]);
+$pname = "";
+$stasks = $tasks_from_db;
+if (isset($_GET['tab'])){
+    $pname = $_GET['tab'];
+    for($i = 0; $i < count($projects_from_db); $i++){
+        if ($pname == $projects_from_db[$i]["id_projects"])
+            $pname = $projects_from_db[$i]["project_name"];
+    }
+    for($i = count($tasks_from_db)-1; $i >= 0; $i--){
+        if ($pname != $stasks[$i]["project_name"])
+            array_splice($stasks, $i, 1);
+    }
+    if (count($stasks) == 0)
+        $stasks = header("HTTP/1.1 404 Not Found");
+}
+
+$page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);
 
 $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => $username]);
 
