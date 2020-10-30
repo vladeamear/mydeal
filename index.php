@@ -53,6 +53,7 @@ function howmuch($innertasks,$projectname){
 
 $pname = "";
 $stasks = $tasks_from_db;
+
 if (isset($_GET['tab'])){
     $pname = $_GET['tab'];
     for($i = 0; $i < count($projects_from_db); $i++){
@@ -63,8 +64,6 @@ if (isset($_GET['tab'])){
         if ($pname != $stasks[$i]["project_name"])
             array_splice($stasks, $i, 1);
     }
-    if (count($stasks) == 0)
-        $stasks = header("HTTP/1.1 404 Not Found");
 }
 
 $page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);

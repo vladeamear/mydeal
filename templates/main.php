@@ -58,7 +58,6 @@
                     <?php
                         for ($i = 0; $i <count($stasks); $i++){
 
-                            if ($stasks[$i]["project_name"] == $pname){
 
                                 $k = strtotime(date('d.m.Y'))-strtotime($stasks[$i]["deadline"]);
 
@@ -79,7 +78,6 @@
                         <td class="task__controls"></td>
                     </tr>
                     <?
-                            }
                         }
                     ?>
                 </table>
