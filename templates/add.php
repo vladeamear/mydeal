@@ -1,7 +1,11 @@
 <?php
     $projects = $data['projects'];
     $tasks = $data['tasks'];
-    $show_complete_tasks = $data['toshowornottoshow'];
+    $errors = $data['errors'];
+    function getPostVal($name){
+      return $_POST[$name] ?? "";
+    }
+    
 ?>
 
     <section class="content__side">
@@ -13,7 +17,7 @@
                             for ($i = 0; $i < count($projects); $i++){
                         ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="?tab=<?=$projects[$i]["id_projects"]?>">
+                            <a class="main-navigation__list-item-link" href="index.php?tab=<?=$projects[$i]["id_projects"]?>">
                                 <?=$projects[$i]["project_name"]?>
                             </a>
                             <span class="main-navigation__list-item-count"><?=howmuch($tasks,$projects[$i]["project_name"])?></span>
@@ -30,21 +34,40 @@
       <main class="content__main">
         <h2 class="content__main-heading">Добавление задачи</h2>
 
-        <form class="form"  action="index.html" method="post" autocomplete="off">
+        <form class="form"  action="" method="POST" autocomplete="off">
           <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
+              <?php
+                $classname = '';
 
-            <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+                if (isset($errors['name'])){
+                  $classname = 'form__input--error';
+              ?>
+              <p class="form__massage"><?=$errors['name']?></p>
+              <?
+                }
+              ?>
+            <input class="form__input <?=$classname?>" type="text" name="name" id="name" value="<?=getPostVal('name')?>" placeholder="Введите название">
           </div>
 
           <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
+              <?php
+                $classname = '';
 
-            <select class="form__input form__input--select" name="project" id="project">
+                if (isset($errors['project'])){
+                  $classname = 'form__input--error';
+              ?>
+              <p class="form__massage"><?=$errors['project']?></p>
+              <?
+                }
+              ?>
+            <select class="form__input form__input--select <?=$classname?>" name="project" id="project">
+              <option>Выбрать</option>
               <?php
                 for($i = 0; $i < count($projects); $i++){
               ?>
-              <option value=""><?=$projects[$i]["project_name"]?></option>
+              <option><?=$projects[$i]["project_name"]?></option>
               <?
                 }
               ?>
@@ -54,7 +77,7 @@
           <div class="form__row">
             <label class="form__label" for="date">Дата выполнения</label>
 
-            <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+            <input class="form__input form__input--date" type="text" name="date" id="date" value="<?=getPostVal('date')?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
           </div>
 
           <div class="form__row">

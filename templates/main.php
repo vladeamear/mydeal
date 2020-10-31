@@ -59,7 +59,7 @@
                         for ($i = 0; $i <count($stasks); $i++){
 
 
-                                $k = strtotime(date('d.m.Y'))-strtotime($stasks[$i]["deadline"]);
+                                $k = abs(strtotime(date('Y-m-d'))-strtotime($stasks[$i]["deadline"]));
 
                             if ($show_complete_tasks == 0 && $stasks[$i]["task_status"]==1)
                                 continue;

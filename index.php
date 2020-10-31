@@ -53,9 +53,8 @@ function howmuch($innertasks,$projectname){
 
 $pname = "";
 $stasks = $tasks_from_db;
-$page = 'main.php';
 
-if (isset($_GET['tab']) && ($_GET['tab']) != 0){
+if (isset($_GET['tab'])){
     $pname = $_GET['tab'];
     for($i = 0; $i < count($projects_from_db); $i++){
         if ($pname == $projects_from_db[$i]["id_projects"])
@@ -65,13 +64,10 @@ if (isset($_GET['tab']) && ($_GET['tab']) != 0){
         if ($pname != $stasks[$i]["project_name"])
             array_splice($stasks, $i, 1);
     }
-    $page = 'main.php';
 }
 
-if (isset($_GET['tab']) && ($_GET['tab']) == 0)
-    $page = 'add.php';
 
-$page_content = include_template($page, ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);
+$page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);
 
 $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => $username]);
 
