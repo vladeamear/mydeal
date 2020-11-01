@@ -47,10 +47,12 @@ $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
+    $text = htmlspecialchars($_POST['name']);
+
     function validLen(){
-        $len = strlen($_POST['name']);
-        if($len > 40)
-            return "В названии должно быть до 40 символов";
+        $len = strlen(htmlspecialchars($_POST['name']));
+        if($len > 100)
+            return "В названии должно быть меньше символов";
         return null;
     }
 
@@ -105,7 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     else{
         $sql = mysqli_query($con, "INSERT INTO tasks SET
-            task_name = '{$_POST['name']}', 
+            task_name = '{$text}', 
             moment_of_creation = NOW(), 
             file_link = '{$link_to_file}', 
             deadline = {$date}, 
@@ -113,7 +115,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             project_name = '{$_POST['project']}', 
             author = '{$username}';
         ");
-        // $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => []]);
         header ('Location: index.php');
         exit(); 
     }
