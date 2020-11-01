@@ -34,7 +34,7 @@
       <main class="content__main">
         <h2 class="content__main-heading">Добавление задачи</h2>
 
-        <form class="form"  action="" method="POST" autocomplete="off">
+        <form class="form"  action="" enctype="multipart/form-data" method="POST" autocomplete="off">
           <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
               <?php
@@ -67,7 +67,7 @@
               <?php
                 for($i = 0; $i < count($projects); $i++){
               ?>
-              <option><?=$projects[$i]["project_name"]?></option>
+              <option <?php if ($projects[$i]["project_name"] == getPostVal('project')) echo 'selected'?>><?=$projects[$i]["project_name"]?></option>
               <?
                 }
               ?>
@@ -84,7 +84,7 @@
             <label class="form__label" for="file">Файл</label>
 
             <div class="form__input-file">
-              <input class="visually-hidden" type="file" name="file" id="file" value="">
+              <input class="visually-hidden" type="file" name="file" id="file" value="<?=getPostVal('file')?>">
 
               <label class="button button--transparent" for="file">
                 <span>Выберите файл</span>

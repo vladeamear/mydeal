@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     function validLen(){
         $len = strlen($_POST['name']);
         if($len > 40)
-            return "слишком много букав!";
+            return "В названии должно быть до 40 символов";
         return null;
     }
 
@@ -74,38 +74,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     foreach($required as $key){
         if(empty($_POST[$key]))
-            $errors[$key] = "поле заполни";
+            $errors[$key] = "Необходимо заполнить поле";
     }
     if ($_POST['project'] == 'Выбрать')
-        $errors['project'] = 'Выбери';
+        $errors['project'] = 'Необходимо выбрать проект';
 
-    $link_to_file = '';
-    if(isset($_FILES['file']['name'])){
-
-        $uploaddir = 'uploads/';
-        $uploadfile = $uploaddir . basename($_FILES['file']['name']);
-        
-        echo '<pre>';
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
-            echo "Файл корректен и был успешно загружен.\n";
-        } else {
-            echo "Возможная атака с помощью файловой загрузки!\n";
+    if($_FILES["file"]["name"] != ""){
+        $tmp_name = $_FILES["file"]["tmp_name"];
+        $name = basename($_FILES["file"]["name"]);
+        $type = $_FILES["file"]["type"];
+        if ($type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            $type = "doc";
+        else{
+            $pos = strpos($type,"/");
+            $type = substr($type, $pos+1);
         }
-        
-        echo 'Некоторая отладочная информация:';
-        print_r($_FILES);
-        
-        print "</pre>";
-        $link_to_file = '';
-
-        // $tmp_name = $_FILES['file']['tmp_name'];
-        // $path = $_FILES['file']['name'];
-        // $file_type = finfo_file(finfo_open(FILEINFO_MIME_TYPE),$tmp_name);
-        // $filename = uniqid() . $file_type;
-        // $link_to_file = 'uploads/' . $filename;
-        // move_uploaded_file($tmp_name, $link_to_file);
-        // $file['path'] = $filename;
+        $filename = uniqid() . '.' .$type;
+        move_uploaded_file($tmp_name, "uploads/$filename");
+        $link_to_file = "uploads/$filename";
     }
+    else $link_to_file = '';
+
+    if(empty($_POST['date'])){
+        $date = 'NULL';
+    }
+    else $date = '"' . $_POST['date'] . '"';
 
     if (count($errors)){
         $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => $errors]);
@@ -115,12 +108,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             task_name = '{$_POST['name']}', 
             moment_of_creation = NOW(), 
             file_link = '{$link_to_file}', 
-            deadline = '{$_POST['date']}', 
+            deadline = {$date}, 
             task_status = 0,
             project_name = '{$_POST['project']}', 
             author = '{$username}';
         ");
-        $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => []]);
+        // $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => []]);
+        header ('Location: index.php');
+        exit(); 
     }
 
 }

@@ -75,7 +75,7 @@
                             </label>
                         </td>
                         <td class="task__date"><?=$stasks[$i]["deadline"]?></td>
-                        <td class="task__controls"></td>
+                        <td class="task__controls"><a href="/<?=$stasks[$i]["file_link"]?>"><?=$stasks[$i]["file_link"]?></a></td>
                     </tr>
                     <?
                         }

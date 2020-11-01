@@ -27,7 +27,7 @@ mysqli_set_charset($con, "utf8");
 $username = 'Константин';
 
 $list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `author` = '$username'");
-$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status` FROM `tasks` WHERE `author` = '$username'");
+$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `author` = '$username'");
 
 if(!$list_0f_projects || !$list_0f_tasks){
     $error = mysqli_error($con);
