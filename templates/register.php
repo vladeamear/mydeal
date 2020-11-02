@@ -2,9 +2,9 @@
     // $projects = $data['projects'];
     // $tasks = $data['tasks'];
     // $errors = $data['errors'];
-    // function getPostVal($name){
-    //   return $_POST[$name] ?? "";
-    // }
+    function getPostVal($name){
+      return $_POST[$name] ?? "";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -49,7 +49,7 @@
                 if (isset($errors['email']))
                   $classname = 'form__input--error';
               ?>
-              <input class="form__input <?=$classname?>" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+              <input class="form__input <?=$classname?>" type="text" name="email" id="email" value="<?=getPostVal('email')?>" placeholder="Введите e-mail">
               <?php
                 $classname = '';
                 if (isset($errors['email'])){
@@ -67,7 +67,7 @@
                 if (isset($errors['password']))
                   $classname = 'form__input--error';
               ?>
-              <input class="form__input <?=$classname?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+              <input class="form__input <?=$classname?>" type="password" name="password" id="password" value="<?=getPostVal('password')?>" placeholder="Введите пароль">
               <?php
                 $classname = '';
                 if (isset($errors['password'])){
@@ -85,7 +85,7 @@
                 if (isset($errors['name']))
                   $classname = 'form__input--error';
               ?>
-              <input class="form__input <?=$classname?>" type="text" name="name" id="name" value="" placeholder="Введите пароль">
+              <input class="form__input <?=$classname?>" type="text" name="name" id="name" value="<?=getPostVal('name')?>" placeholder="Введите пароль">
               <?php
                 $classname = '';
                 if (isset($errors['name'])){
