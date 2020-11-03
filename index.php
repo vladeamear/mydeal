@@ -41,12 +41,9 @@ if(!$list_0f_projects || !$list_0f_tasks){
     print('Ошибка MySQL: '.$error);
 }
 
-
 $projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
 $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 
-
-// показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
 function howmuch($innertasks,$projectname){
