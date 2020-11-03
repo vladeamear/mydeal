@@ -24,8 +24,13 @@ if ($con==false){
 
 mysqli_set_charset($con, "utf8");
 
-$useremail = 'kostik@mail.com';
+// $useremail = 'kostik@mail.com';
+$useremail = '';
 
+if(!$useremail){
+    $page_content = include_template('guest.php', []);
+    $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => 'Дела в порядке']);
+} else {
 $list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `email` = '$useremail'");
 $list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `email` = '$useremail'");
 $username = mysqli_query($con, "SELECT `author` FROM `users` WHERE `email` = '$useremail'");
@@ -72,6 +77,7 @@ if (isset($_GET['tab'])){
 $page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);
 
 $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => $username]);
+}
 
 print($layout_content);
 
