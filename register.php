@@ -66,8 +66,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         exit(); 
     }
 }
+$page_content = include_template('register.php', ['errors' => $errors]);
 
-$layout_content = include_template('register.php', ['errors' => $errors, 'title' => 'Регистрация']);
+$layout_content = include_template('layout.php', ['content' => $page_content, 'title' => 'Регистрация']);
 print($layout_content);
 
 ?>

@@ -19,6 +19,10 @@
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
+            <?
+                if($data['title'] != 'Регистрация' && $data['title'] != 'Вход' && $data['title'] != 'Дела в порядке'){
+            ?>
+
             <div class="main-header__side">
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
@@ -30,13 +34,21 @@
                     </div>
                 </div>
             </div>
+            <?
+                }else{
+            ?>
+             <div class="main-header__side">
+                <a class="main-header__side-item button button--transparent" href="form-authorization.html">Войти</a>
+            </div>
+            <?
+                }
+            ?>
         </header>
         <div class="content">
+
         <?=$data['content'];?> 
+        
         </div>
-        <!--
-            тут был контент
-        -->
     </div>
 </div>
 
