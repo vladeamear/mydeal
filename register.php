@@ -62,6 +62,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             email = '{$form['email']}',
             user_password = '{$password}' 
         ");
+        $user = mysqli_query($con, "SELECT * FROM `users` WHERE email = '{$form['email']}'");
+        $user = mysqli_fetch_array($user, MYSQLI_ASSOC);
+        $_SESSION['user'] = $user;
         header ('Location: index.php');
         exit(); 
     }

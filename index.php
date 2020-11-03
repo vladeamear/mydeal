@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+define('CACHE_DIR', basename(__DIR__ . DIRECTORY_SEPARATOR . 'cache'));
+define('UPLOAD_PATH', basename(__DIR__ . DIRECTORY_SEPARATOR . 'uploads'));
 
 function include_template($name, array $data = []) {
     $name = 'templates/' . $name;
@@ -24,13 +28,13 @@ if ($con==false){
 
 mysqli_set_charset($con, "utf8");
 
-// $useremail = 'kostik@mail.com';
-$useremail = '';
+// $useremail = !$_SESSION['user']['email'];
 
-if(!$useremail){
+if(!$_SESSION){
     $page_content = include_template('guest.php', []);
     $layout_content = include_template('layout.php', ['content' => $page_content, 'title' => 'Дела в порядке']);
 } else {
+$useremail = $_SESSION['user']['email'];
 $list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `email` = '$useremail'");
 $list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `email` = '$useremail'");
 $username = mysqli_query($con, "SELECT `author` FROM `users` WHERE `email` = '$useremail'");
@@ -69,7 +73,6 @@ if (isset($_GET['tab'])){
             array_splice($stasks, $i, 1);
     }
 }
-
 
 $page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks, 'toshowornottoshow' => $show_complete_tasks]);
 

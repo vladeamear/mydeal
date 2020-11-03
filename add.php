@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+define('CACHE_DIR', basename(__DIR__ . DIRECTORY_SEPARATOR . 'cache'));
+define('UPLOAD_PATH', basename(__DIR__ . DIRECTORY_SEPARATOR . 'uploads'));
 
 function include_template($name, array $data = []) {
     $name = 'templates/' . $name;
@@ -33,7 +37,7 @@ if ($con==false){
 
 mysqli_set_charset($con, "utf8");
 
-$useremail = 'kostik@mail.com';
+$useremail = $_SESSION['user']['email'];
 
 $list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `email` = '$useremail'");
 $list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `email` = '$useremail'");

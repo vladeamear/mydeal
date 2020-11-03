@@ -51,37 +51,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (filter_var($form['email'],FILTER_VALIDATE_EMAIL) == false){
         $errors['email'] = 'E-mail должен быть корректным';
     }
-    foreach($required as $field){
-        if (empty($form[$field]))
-            $errors[$field] = 'Это поле надо заполнить';
-    }
 
     if(!$errors['email']){
         if(!password_verify($form['password'], $hash)){
-            $errors['password'] = 'Пароль неправильный';
+            $errors['password'] = 'Неверный пароль';
         }
+    } else {
+        $errors['password'] = 'Введите корректный e-mail';
+    }
+    
+    foreach($required as $field){
+        if (empty($form[$field]))
+            $errors[$field] = 'Заполните поле';
     }
 
-    
 
-    // $email = "'" . $form['email'] . "'";
-    // $sql = "SELECT * FROM users WHERE email = $email";
-    // $res = mysqli_fetch_all(mysqli_query($con, $sql), MYSQLI_ASSOC);
+    $errors = array_filter($errors);
 
-    // if(count($res))
-    //     $errors['email'] = 'Пользователь с этим E-mail уже зарегестрирован';
-
-    // if (!count($errors)){
-    //     $password = password_hash($form['password'], PASSWORD_DEFAULT);
-    //     $sql = mysqli_query($con, "INSERT INTO users SET
-    //         author = '{$form['name']}', 
-    //         register_date = NOW(), 
-    //         email = '{$form['email']}',
-    //         user_password = '{$password}' 
-    //     ");
-    //     header ('Location: index.php');
-    //     exit(); 
-    // }
+    if(!count($errors)){
+        $user = mysqli_query($con, "SELECT * FROM `users` WHERE email = '{$form['email']}'");
+        $user = mysqli_fetch_array($user, MYSQLI_ASSOC);
+        $_SESSION['user'] = $user;
+        header("Location: index.php");
+        exit();
+    }
+}
+if(isset($_SESSION['user'])){
+    header("Location: index.php");
+    exit();
 }
 $page_content = include_template('auth.php', ['errors' => $errors]);
 
