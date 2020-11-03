@@ -24,10 +24,12 @@ if ($con==false){
 
 mysqli_set_charset($con, "utf8");
 
-$username = 'Константин';
+$useremail = 'kostik@mail.com';
 
-$list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `author` = '$username'");
-$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `author` = '$username'");
+$list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `email` = '$useremail'");
+$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `email` = '$useremail'");
+$username = mysqli_query($con, "SELECT `author` FROM `users` WHERE `email` = '$useremail'");
+$username = mysqli_fetch_all($username, MYSQLI_ASSOC)[0]['author'];
 
 if(!$list_0f_projects || !$list_0f_tasks){
     $error = mysqli_error($con);

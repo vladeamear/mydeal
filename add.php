@@ -33,10 +33,12 @@ if ($con==false){
 
 mysqli_set_charset($con, "utf8");
 
-$username = 'Константин';
+$useremail = 'kostik@mail.com';
 
-$list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `author` = '$username'");
-$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status` FROM `tasks` WHERE `author` = '$username'");
+$list_0f_projects = mysqli_query($con, "SELECT `project_name`, `id_projects` FROM `projects` WHERE `email` = '$useremail'");
+$list_0f_tasks = mysqli_query($con, "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` WHERE `email` = '$useremail'");
+$username = mysqli_query($con, "SELECT `author` FROM `users` WHERE `email` = '$useremail'");
+$username = mysqli_fetch_all($username, MYSQLI_ASSOC)[0]['author'];
 
 $projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
 $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
@@ -113,7 +115,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             deadline = {$date}, 
             task_status = 0,
             project_name = '{$_POST['project']}', 
-            author = '{$username}';
+            email = '{$useremail}';
         ");
         header ('Location: index.php');
         exit(); 
