@@ -12,10 +12,6 @@ $username = mysqli_fetch_all($username, MYSQLI_ASSOC)[0]['author'];
 $projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
 $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 
-
-
-
-
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $text = htmlspecialchars($_POST['name']);
