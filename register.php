@@ -1,32 +1,6 @@
 <?php
-session_start();
 
-define('CACHE_DIR', basename(__DIR__ . DIRECTORY_SEPARATOR . 'cache'));
-define('UPLOAD_PATH', basename(__DIR__ . DIRECTORY_SEPARATOR . 'uploads'));
-
-function include_template($name, array $data = []) {
-    $name = 'templates/' . $name;
-    $result = '';
-
-    if (!is_readable($name)) {
-        return $result;
-    }
-
-    ob_start();
-    extract($data);
-    require $name;
-
-    $result = ob_get_clean();
-
-    return $result;
-}
-
-$con = mysqli_connect('localhost','root','root','mydeal');
-if ($con==false){
-    print("ошибка подключения: ".mysqli_connect_error());
-}
-
-mysqli_set_charset($con, "utf8");
+require_once "init+functions.php";
 
 $list_0f_users = mysqli_query($con, "SELECT `author`, `email`,`user_password` FROM `users` WHERE 1");
 
