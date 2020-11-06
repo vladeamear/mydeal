@@ -59,10 +59,21 @@ function howmuch($innertasks,$projectname){
     return $j;
 }
 
+if (isset($_GET['search'])){
+    $search = trim($_GET['search']);
+    if($search){
+        mysqli_query($con, 'CREATE FULLTEXT INDEX search ON tasks(task_name)');
+        $sql = "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` "
+        . "WHERE (`email` = '{$useremail}') AND (MATCH(task_name) AGAINST ('{$search}'))";
+        $list_0f_tasks = mysqli_query($con, $sql);
+        $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
+    }
+}
+
 $pname = "";
 $stasks = $tasks_from_db;
 
-if (isset($_GET['tab'])){
+if (isset($_GET['tab']) &&  $tasks_from_db != ['НЕТ РЕЗУЛЬАТОВ']){
     $pname = $_GET['tab'];
     for($i = 0; $i < count($projects_from_db); $i++){
         if ($pname == $projects_from_db[$i]["id_projects"])

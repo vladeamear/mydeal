@@ -2,6 +2,9 @@
     $projects = $data['projects'];
     $tasks = $data['tasks'];
     $show_complete_tasks = $data['toshowornottoshow'];
+    function getGetVal($name){
+      return $_GET[$name] ?? "";
+    }  
 ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
@@ -33,11 +36,15 @@
             <main class="content__main">
                 <h2 class="content__main-heading">Список задач</h2>
 
-                <form class="search-form" action="index.php" method="post" autocomplete="off">
-                    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+                <!-- <> -->
+
+                <form class="search-form" action="" method="GET" autocomplete="off">
+                    <input class="search-form__input" type="text" name="search" value="<?=getGetVal('search')?>" placeholder="Поиск по задачам">
 
                     <input class="search-form__submit" type="submit" name="" value="Искать">
                 </form>
+
+                <!-- <> -->
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
@@ -55,7 +62,15 @@
                 </div>
 
                 <table class="tasks">
+                    <?php 
+                    if(!$stasks){
+                    ?>
+                    <tr>
+                        Ничего не найдено по вашему запросу <br /><br />
+                        <a class="button button--transparent content__side-button" href="/">На главную</a>
+                    </tr>
                     <?php
+                    } else{
                         for ($i = 0; $i <count($stasks); $i++){
 
 
@@ -79,6 +94,7 @@
                     </tr>
                     <?
                         }
+                    }
                     ?>
                 </table>
             </main>
