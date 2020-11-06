@@ -48,15 +48,24 @@
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                        <a href="/" class="tasks-switch__item">Повестка дня</a>
-                        <a href="/" class="tasks-switch__item">Завтра</a>
-                        <a href="/" class="tasks-switch__item">Просроченные</a>
+                    <!-- tasks-switch__item--active -->
+                        <a href="?d=0" class="tasks-switch__item <?php
+                            if($_GET['d'] == 0 || !$_GET['d']) echo 'tasks-switch__item--active'
+                        ?>">Все задачи</a>
+                        <a href="?d=1" class="tasks-switch__item <?php
+                            if($_GET['d'] == 1) echo 'tasks-switch__item--active'
+                        ?>">Повестка дня</a>
+                        <a href="?d=2" class="tasks-switch__item <?php
+                            if($_GET['d'] == 2) echo 'tasks-switch__item--active'
+                        ?>">Завтра</a>
+                        <a href="?d=3" class="tasks-switch__item <?php
+                            if($_GET['d'] == 3) echo 'tasks-switch__item--active'
+                        ?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">
                         <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?if($show_complete_tasks == 1) echo 'checked'?>>
+                        <input class="checkbox__input visually-hidden show_completed" name="state" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
