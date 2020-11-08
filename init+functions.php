@@ -36,4 +36,19 @@ function howmuch($innertasks,$projectname){
     }
     return $j;
 }
+
+function addGet($k,$n){
+    if(empty($_REQUEST)) echo '/?' . $k . '=' . $n; 
+    else{ 
+        if (!array_key_exists($k,$_REQUEST))
+            echo '/?' . $_SERVER['QUERY_STRING'] . '&' . $k . '=' . $n;
+        else{
+            $s = $_SERVER['QUERY_STRING'];
+            $j = $k . '=' . $_REQUEST[$k];
+            $i = $k . '=' . $n;
+            $s = '/?' . str_replace($j,$i,$s);
+            echo $s;
+        }
+    }
+};
 ?>
