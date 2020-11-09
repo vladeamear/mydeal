@@ -13,6 +13,10 @@ if ($checkbox.length) {
   });
 }
 
+function show(){
+  document.getElementById("save").style.display = "block";
+};
+
 
 
 flatpickr('#date', {

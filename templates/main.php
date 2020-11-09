@@ -37,7 +37,7 @@
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
-
+                <form action="" method="POST">
                 <table class="tasks">
                     <?php 
                     if(!$stasks){
@@ -61,12 +61,17 @@
                                 
                     ?>
                     <tr class="tasks__item task <?php 
-                        if($stasks[$i][3]==true) echo 'task--completed';
+                        if($stasks[$i]["task_status"]==1) echo 'task--completed';
                         if($k < 86400) echo 'task--important';
                         ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" <?php if($stasks[$i]["task_status"]==1) echo 'checked'?>>
+                                <input type="hidden" value="<?=$stasks[$i]['id_tasks']?>" name="<?=$stasks[$i]['id_tasks']?>">
+                                <input class="checkbox__input visually-hidden" type="checkbox"
+                                    value="" name="<?=$stasks[$i]['id_tasks']?>" 
+                                    onchange="document.getElementById('save').style.display = 'block';" 
+                                    <?php if($stasks[$i]["task_status"]==1) echo 'checked'?>
+                                >
                                 <span class="checkbox__text"><?=$stasks[$i]["task_name"]?></span>
                             </label>
                         </td>
@@ -83,5 +88,7 @@
                     }
                     ?>
                 </table>
+                        <input class="button" id="save" style="display:none; margin-top:16px;" type="submit" name="" value="Сохранить изменения">
+                </form>
             </main>
     

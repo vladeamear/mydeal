@@ -41,6 +41,23 @@ $projects_from_db = mysqli_fetch_all($list_0f_projects, MYSQLI_ASSOC);
 $tasks_from_db = mysqli_fetch_all($list_0f_tasks, MYSQLI_ASSOC);
 $stasks = mysqli_fetch_all($list_0f_stasks, MYSQLI_ASSOC);
 
+if (isset($_POST)){
+    // print_r($_POST);
+    // echo "<br />";
+    // print_r($stasks);
+    for ($i = 0; $i < count($stasks); $i++){
+        if(array_key_exists($stasks[$i]['id_tasks'],$_POST)){
+            if($stasks[$i]['task_status'] == 0 && empty($_POST[$stasks[$i]['id_tasks']])){
+                mysqli_query($con, "UPDATE `tasks` SET `task_status` = 1 WHERE `id_tasks` = '{$stasks[$i]['id_tasks']}'");
+                $stasks[$i]['task_status'] = 1;
+            } else if($stasks[$i]['task_status'] == 1 && !empty($_POST[$stasks[$i]['id_tasks']])){
+                mysqli_query($con, "UPDATE `tasks` SET `task_status` = 0 WHERE `id_tasks` = '{$stasks[$i]['id_tasks']}'");
+                $stasks[$i]['task_status'] = 0;
+            }
+        }
+    }
+}else{}
+
 $pname = "";
 
 if (isset($_GET['tab'])){
@@ -59,12 +76,15 @@ if (isset($_GET['search'])){
     $search = trim($_GET['search']);
     if($search){
         mysqli_query($con, 'CREATE FULLTEXT INDEX search ON tasks(task_name)');
-        $sql = "SELECT `task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` "
+        $sql = "SELECT `id_tasks`,`task_name`, `deadline`, `project_name`, `task_status`,`file_link` FROM `tasks` "
         . "WHERE (`email` = '{$useremail}') AND (MATCH(task_name) AGAINST ('{$search}')) $d";
         $stasks = mysqli_query($con, $sql);
         $stasks = mysqli_fetch_all($stasks, MYSQLI_ASSOC);
     }
 }
+
+
+
 
 
 $page_content = include_template('main.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'pname' => $pname, 'stasks' => $stasks]);
