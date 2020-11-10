@@ -1,0 +1,8 @@
+{
+    "name": "loose/mydeal",
+    "description": "dela v poryadke",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}
