@@ -1,8 +1,5 @@
 <?php
     $errors = $data['errors'];
-    function getPostVal($name){
-      return $_POST[$name] ?? "";
-    }  
 ?>
     <section class="content__side">
         <p class="content__side-info">Если у вас нет аккаунта, зарегистрируйтесь</p>

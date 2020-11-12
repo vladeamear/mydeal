@@ -18,8 +18,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     function validLen(){
         $len = strlen(htmlspecialchars($_POST['name']));
-        if($len > 100)
+        if($len > 100){
             return "В названии должно быть меньше символов";
+        }
         return null;
     }
 
@@ -33,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     ];
 
     foreach($_POST as $key => $value){
-        if (isset($rules[$key])){
+        if(isset($rules[$key])){
             $rule = $rules[$key];
             $errors[$key] = $rule();
         }
@@ -42,18 +43,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $errors = array_filter($errors);
     
     foreach($required as $key){
-        if(empty($_POST[$key]))
+        if(empty($_POST[$key])){
             $errors[$key] = "Необходимо заполнить поле";
+        }
     }
-    if ($_POST['project'] == 'Выбрать')
+    if($_POST['project'] == 'Выбрать'){
         $errors['project'] = 'Необходимо выбрать проект';
+    }
 
     if($_FILES["file"]["name"] != ""){
         $tmp_name = $_FILES["file"]["tmp_name"];
         $name = basename($_FILES["file"]["name"]);
         $type = $_FILES["file"]["type"];
-        if ($type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        if($type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
             $type = "doc";
+        }
         else{
             $pos = strpos($type,"/");
             $type = substr($type, $pos+1);
@@ -61,18 +65,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $filename = uniqid() . '.' .$type;
         move_uploaded_file($tmp_name, "uploads/$filename");
         $link_to_file = "uploads/$filename";
+    } else {
+        $link_to_file = '';
     }
-    else $link_to_file = '';
 
     if(empty($_POST['date'])){
         $date = 'NULL';
+    } else {
+        $date = '"' . $_POST['date'] . '"';
     }
-    else $date = '"' . $_POST['date'] . '"';
 
-    if (count($errors)){
+    if(count($errors)){
         $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => $errors]);
-    }
-    else{
+    } else {
         $sql = mysqli_query($con, "INSERT INTO tasks SET
             task_name = '{$text}', 
             moment_of_creation = NOW(), 
@@ -86,8 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         exit(); 
     }
 
-}
-else{
+} else {
     $page_content = include_template('add.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => []]);
 }
 

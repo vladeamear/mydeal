@@ -35,8 +35,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     
     foreach($required as $field){
-        if (empty($form[$field]))
+        if(empty($form[$field])){
             $errors[$field] = 'Заполните поле';
+        }
     }
 
 

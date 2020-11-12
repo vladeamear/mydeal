@@ -31,18 +31,20 @@ function include_template($name, array $data = []) {
 function howmuch($innertasks,$projectname){
     $j = 0;
     for ($i = 0; $i < count($innertasks); $i++){
-        if($innertasks[$i]["project_name"] == $projectname)
+        if($innertasks[$i]["project_name"] == $projectname){
             $j++;
+        }
     }
     return $j;
 }
 
 function addGet($k,$n){
-    if(empty($_REQUEST)) echo '/?' . $k . '=' . $n; 
-    else{ 
-        if (!array_key_exists($k,$_REQUEST))
+    if(empty($_REQUEST)) {
+        echo '/?' . $k . '=' . $n; 
+    } else { 
+        if(!array_key_exists($k,$_REQUEST)){
             echo '/?' . $_SERVER['QUERY_STRING'] . '&' . $k . '=' . $n;
-        else{
+        } else {
             $s = $_SERVER['QUERY_STRING'];
             $j = $k . '=' . $_REQUEST[$k];
             $i = $k . '=' . $n;
@@ -50,5 +52,13 @@ function addGet($k,$n){
             echo $s;
         }
     }
-};
+}
+
+function getGetVal($name){
+    return $_GET[$name] ?? "";
+}  
+
+function getPostVal($name){
+    return $_POST[$name] ?? "";
+}
 ?>

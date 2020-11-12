@@ -13,7 +13,7 @@
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper <?php
-    if ($data['title'] == 'Дела в порядке') echo 'body-background';
+    if ($data['title'] == 'Дела в порядке') {echo 'body-background';}
 ?>">
     <div class="container container--with-sidebar">
         <header class="main-header">

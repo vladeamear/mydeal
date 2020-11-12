@@ -2,9 +2,6 @@
     $projects = $data['projects'];
     $tasks = $data['tasks'];
     $errors = $data['errors'];
-    function getPostVal($name){
-      return $_POST[$name] ?? "";
-    }
     include 'content_side.php';
 ?>
       <main class="content__main">

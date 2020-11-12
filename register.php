@@ -16,17 +16,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (filter_var($form['email'],FILTER_VALIDATE_EMAIL) == false){
         $errors['email'] = 'E-mail должен быть корректным';
     }
+
     foreach($required as $field){
-        if (empty($form[$field]))
+        if (empty($form[$field])){
             $errors[$field] = 'Это поле надо заполнить';
+        }
     }
 
     $email = "'" . $form['email'] . "'";
     $sql = "SELECT * FROM users WHERE email = $email";
     $res = mysqli_fetch_all(mysqli_query($con, $sql), MYSQLI_ASSOC);
 
-    if(count($res))
+    if(count($res)){
         $errors['email'] = 'Пользователь с этим E-mail уже зарегестрирован';
+    }
 
     if (!count($errors)){
         $password = password_hash($form['password'], PASSWORD_DEFAULT);

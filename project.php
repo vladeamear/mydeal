@@ -29,11 +29,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         }
     }
-
-    if (count($errors)){
+    
+    if(count($errors)){
         $page_content = include_template('project.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => $errors]);
-    }
-    else{
+    } else {
         $sql = mysqli_query($con, "INSERT INTO projects SET
             project_name = '{$text}', 
             email = '{$useremail}';
@@ -41,9 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         header ('Location: index.php');
         exit(); 
     }
-
-}
-else{
+} else {
     $page_content = include_template('project.php', ['projects' => $projects_from_db, 'tasks' => $tasks_from_db, 'errors' => []]);
 }
 
